@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+
+    
+</div>
+<div class="container">
+
+        <a href="{% url 'new-toto' %}" class="btn btn-sm btn-info mb-2"> New Member</a>
+    <div class="row">
+        {% for toto in all_totos %}
+        <div class="col-md-4">
+            <div class="card mb-4" style="min-height:340px">
+                <img src="{{ toto.toto_logo.url }}" class="card-img-top" alt="{{ toto.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ toto.name }}  ({{toto.location}}) <span class="ml-4">{{toto.members.count}} member{{toto.members.count|pluralize}}</span></h5>
+                    <p class="card-text">{{toto.description}}</p>
+                    {% if request.user.profile.lindatoto == toto%}
+                    <a href="{% url 'leave-toto' toto.id %}" class="btn btn-outline-danger btn-sm">Leave Lindatoto</a>
+                    {% elif not request.user.profile.lindatoto %}
+                    <a href="{% url 'join-toto' toto.id %}" class="btn btn-primary btn-sm">Join Lindatoto</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
